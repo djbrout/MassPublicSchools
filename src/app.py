@@ -5,6 +5,15 @@ import plotly.express as px
 from glob import glob
 import dash_bootstrap_components as dbc
 
+# TO DO:
+# modifier (year over year)
+# rank (only amongst selected schools unless just one selected)
+# custom equation.
+# more data
+# dollars data non category
+# housing cost
+
+
 DISTRICTS = {
     int("00490000"): "Cambridge",
     int("00460000"): "Brookline",
@@ -540,6 +549,8 @@ data_df = pd.merge(data_df,attendancedata_df,on='UNIQ',suffixes=('','_extra'),ho
 print('done merge3')
 data_df = pd.merge(data_df,disciplinedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
 print('done merge4')
+
+
 ylist = ['Student / Teacher Ratio', 
 'Students',
 'Total # of Teachers (FTE)',
@@ -566,18 +577,22 @@ SIDEBAR_STYLE = {
     "background-color": "#f8f9fa",
 }
 
+print('sidebar')
 sidebar = html.Div(
     [
         html.H2(""),
         html.Hr(),
         dbc.Nav(
             [
-                html.P(" School District", className="lead"),
-                dcc.Dropdown(data_df['District Name'].dropna().unique(), '', id='dropdown-selection',multi=True),
+                html.H2(" School District", className="lead",style = {'margin-left':'7px'}),
+                dcc.Dropdown(data_df['District Name'].dropna().unique(), '', id='dropdown-selection',multi=True, maxHeight=500, style = {'margin-left':'7px'}),
                 html.Br(),
-                html.P(" Data to Plot", className="lead"),
-                dcc.Dropdown(ylist, 'Student / Teacher Ratio', id='ycol'),
+                html.H2(" Data to Plot", className="lead", style = {'margin-left':'7px'}),
+                dcc.Dropdown(ylist, 'Student / Teacher Ratio', id='ycol', maxHeight=500, style = {'margin-left':'7px'}),
                 html.Br(),
+                html.H2(" Modifier", className="lead", style = {'margin-left':'7px'}),
+                dcc.Dropdown(['None','Rank (overall)','Rank (only selected)'], 'None', id='modifier', style = {'margin-left':'7px'}),
+                html.Br(),html.Br(),html.Br(),html.Br(),html.Br(),
             ],
             vertical=True,
             pills=True,
@@ -586,6 +601,53 @@ sidebar = html.Div(
     ],
     # style=SIDEBAR_STYLE,
 )
+
+print('equation')
+
+equation = html.Div([
+    dbc.Nav( [
+
+    html.Div([html.A('Student / Teacher Ratio x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='stratio')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ Total Students x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='studets')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ Percent of Experienced Teachers x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='experience')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ Attendance Rate x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='attendance')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ Total Enrollment x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='totenrollment')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ Chronically Absent (10% or more) x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='absent10')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ % In-School Suspension x '),
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='issuspension')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    html.Div([html.A('+ % Out-of-School Suspension x '),
+    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='ossuspension')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
+    ],
+    vertical=False,
+    pills=True,
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}
+    ),
+    ],
+)
+
+print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 server = app.server
@@ -602,17 +664,22 @@ app.layout = html.Div(children = [
                 dbc.Row(
                     [dbc.Col(sidebar),
                     dbc.Col(dcc.Graph(id='graph-content'), width = 8, style = {'margin-left':'15px', 'margin-top':'7px', 'margin-right':'15px'})
-                    ])
-    ]
-)
+                    ]),
+                dbc.Row(html.Hr()),
+                dbc.Row(html.H2(" Custom Ranking Equation (NOT FUNCTIONAL YET)", className="lead", style = {'margin-left':'7px'})),
+                dbc.Row( equation ),
+                ])
 
+def getrank(schools=None):
+    return ranks
 
 @callback(
     Output('graph-content', 'figure'),
     [Input('dropdown-selection', 'value'),
-    Input('ycol', 'value')]
+    Input('ycol', 'value'),
+    Input('modifier', 'value')]
 )
-def update_graph(value,yvalue):
+def update_graph(value,yvalue,modifier):
     ww = data_df['District Name']== 'asdf' 
     if not isinstance(value, list):
         ww = (data_df['District Name']==value)
@@ -621,10 +688,20 @@ def update_graph(value,yvalue):
             ww = ww | (data_df['District Name']==v)
     print(value)
     print(yvalue)
-    dff = data_df[ww].sort_values('Year')#.dropna(subset=[yvalue])
+    
     if yvalue is None:
         return px.line()
-    return px.line(dff, x='Year', y=yvalue, range_x=[2011,2023], line_group='District Name', color='District Name')
+    if modifier == 'None':
+        dff = data_df[ww].sort_values('Year')
+        return px.line(dff, x='Year', y=yvalue, range_x=[2011,2023], line_group='District Name', color='District Name')
+    if modifier == 'Rank (overall)':
+        data_df[yvalue+' Rank (overall)'] = data_df.groupby("Year")[yvalue].rank(method='max',na_option='bottom')
+        dff = data_df[ww].sort_values('Year')
+        return px.line(dff, x='Year', y=yvalue+' Rank (overall)', range_x=[2011,2023], line_group='District Name', color='District Name')
+    if modifier == 'Rank (only selected)':
+        dff = data_df[ww].sort_values('Year')
+        dff[yvalue+' Rank (only selected)'] = dff.groupby("Year")[yvalue].rank(method='max',na_option='bottom')
+        return px.line(dff, x='Year', y=yvalue+' Rank (only selected)', range_x=[2011,2023], line_group='District Name', color='District Name')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
