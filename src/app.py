@@ -414,7 +414,7 @@ DISTRICTS_LIST = [
 "Wrentham"]
 
 TEACHER_COLUMNS = ['District Name','District Code','Student / Teacher Ratio','Percent of Experienced Teachers','Total # of Teachers (FTE)']
-EXPENDITURES_COLUMNS = ['District Name','District Code','In-District Expenditures per Pupil']
+# EXPENDITURES_COLUMNS = ['District Name','District Code','In-District Expenditures per Pupil']
 ENROLLMENT_COLUMNS = ['District Name','District Code','K','1','2','3','4','5','6','7','8','9','10','11','12']
 ATTENDANCE_COLUMNS = ['District Name','District Code','Attendance Rate','Chronically Absent (10% or more)','Chronically Absent (20% or more)']
 DISCIPLINE_COLUMNS = ['District Name','District Code','Students','% In-School Suspension','% Out-of-School Suspension']
@@ -424,7 +424,7 @@ def get_teacherdata(tickers=DISTRICTS_LIST,columns=TEACHER_COLUMNS):
     files = glob(f"../DATA/teacherdata*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',')
+        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = TEACHER_COLUMNS)
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
@@ -446,7 +446,7 @@ def get_expendituredata(tickers=DISTRICTS_LIST,columns=EXPENDITURES_COLUMNS):
     files = glob(f"../DATA/PerPupilExpenditures*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',')
+        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = EXPENDITURES_COLUMNS)
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
@@ -467,7 +467,7 @@ def get_enrollmentdata(tickers=DISTRICTS_LIST,columns=ENROLLMENT_COLUMNS):
     files = glob(f"../DATA/enrollmentbygrade*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',')
+        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = ENROLLMENT_COLUMNS)
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
@@ -489,7 +489,7 @@ def get_attendancedata(tickers=DISTRICTS_LIST,columns=ATTENDANCE_COLUMNS):
     files = glob(f"../DATA/attendance*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',')
+        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = ATTENDANCE_COLUMNS)
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
@@ -507,7 +507,7 @@ def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
     files = glob(f"../DATA/StudentDisciplineDataReport*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',')
+        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = DISCIPLINE_COLUMNS)
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
@@ -520,18 +520,18 @@ def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
         
     return bigdf
 
-teacherdata_df = get_teacherdata()
+data_df = get_teacherdata()
 print('got teacherdata_df')
-expendituresdata_df = get_expendituredata()
-print('got expendituresdata_df')
+# expendituresdata_df = get_expendituredata()
+# print('got expendituresdata_df')
 enrollmentdata_df = get_enrollmentdata()
 print('got enrollmentdata_df')
 attendancedata_df = get_attendancedata()
 print('got attendancedata_df')
 disciplinedata_df = get_disciplinedata()
 print('got disciplinedata_df')
-data_df = pd.merge(teacherdata_df,expendituresdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge1')
+# data_df = pd.merge(data_df,expendituresdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+# print('done merge1')
 data_df = pd.merge(data_df,enrollmentdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
 print('done merge2')
 data_df = pd.merge(data_df,attendancedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
@@ -542,7 +542,7 @@ ylist = ['Student / Teacher Ratio',
 'Students',
 'Total # of Teachers (FTE)',
 'Percent of Experienced Teachers',
-'In-District Expenditures per Pupil ($)',
+# 'In-District Expenditures per Pupil ($)',
 'Elementary School Enrollment',
 'Middle School Enrollment',
 'High School Enrollment',
