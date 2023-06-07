@@ -666,7 +666,7 @@ app.layout = html.Div(children = [
                     dbc.Col(dcc.Graph(id='graph-content'), width = 8, style = {'margin-left':'15px', 'margin-top':'7px', 'margin-right':'15px'})
                     ]),
                 dbc.Row(html.Hr()),
-                dbc.Row(html.H2(" Custom Ranking Equation (NOT FUNCTIONAL YET)", className="lead", style = {'margin-left':'7px'})),
+                dbc.Row(html.H2(" Custom Weighted Evaluation (NOT FUNCTIONAL YET)", className="lead", style = {'margin-left':'7px'})),
                 dbc.Row( equation ),
                 ])
 
