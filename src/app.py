@@ -413,7 +413,7 @@ DISTRICTS_LIST = [
 "Worthington",
 "Wrentham"]
 
-TEACHER_COLUMNS = ['District Name','District Code','Student / Teacher Ratio','Percent of Experienced Teachers','Total # of Teachers (FTE)']
+TEACHER_COLUMNS = ['District Name','District Code','Total # of Teachers (FTE)','Student / Teacher Ratio','Percent of Experienced Teachers']
 EXPENDITURES_COLUMNS = ['District Name','District Code','In-District Expenditures per Pupil']
 ENROLLMENT_COLUMNS = ['District Name','District Code','K','1','2','3','4','5','6','7','8','9','10','11','12']
 ATTENDANCE_COLUMNS = ['District Name','District Code','Attendance Rate','Chronically Absent (10% or more)','Chronically Absent (20% or more)']
@@ -424,12 +424,12 @@ def get_teacherdata(tickers=DISTRICTS_LIST,columns=TEACHER_COLUMNS):
     files = glob(f"../DATA/teacherdata*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = TEACHER_COLUMNS)
+        df = pd.read_excel(file,skiprows=1, thousands=',')
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
         df = df[columns]
-        year = int('20'+file.split('.')[0][-2:])
+        year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         #df = df[df['District Code'].isin(DISTRICTS_LIST)]
         df['Student / Teacher Ratio'][df['Student / Teacher Ratio']=='Not Reported'] = 'NAN to NAN'
@@ -446,12 +446,12 @@ def get_expendituredata(tickers=DISTRICTS_LIST,columns=EXPENDITURES_COLUMNS):
     files = glob(f"../DATA/PerPupilExpenditures*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = EXPENDITURES_COLUMNS)
+        df = pd.read_excel(file,skiprows=1, thousands=',')
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
         df = df[columns]
-        year = int('20'+file.split('.')[0][-2:])
+        year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         #df = df[df['District Code'].isin(DISTRICTS_LIST)]
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
@@ -469,12 +469,12 @@ def get_enrollmentdata(tickers=DISTRICTS_LIST,columns=ENROLLMENT_COLUMNS):
     files = glob(f"../DATA/enrollmentbygrade*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = ENROLLMENT_COLUMNS)
+        df = pd.read_excel(file,skiprows=1, thousands=',')
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
         df = df[columns]
-        year = int('20'+file.split('.')[0][-2:])
+        year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         #df = df[df['District Code'].isin(DISTRICTS_LIST)]
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
@@ -491,12 +491,12 @@ def get_attendancedata(tickers=DISTRICTS_LIST,columns=ATTENDANCE_COLUMNS):
     files = glob(f"../DATA/attendance*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = ATTENDANCE_COLUMNS)
+        df = pd.read_excel(file,skiprows=1, thousands=',')
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
         df = df[columns]
-        year = int('20'+file.split('.')[0][-2:])
+        year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
         df_list.append(df)
@@ -509,12 +509,12 @@ def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
     files = glob(f"../DATA/StudentDisciplineDataReport*.xlsx")
     df_list = []
     for file in files:
-        df = pd.read_excel(file,skiprows=1, thousands=',', usecols = DISCIPLINE_COLUMNS)
+        df = pd.read_excel(file,skiprows=1, thousands=',')
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
         df = df[columns]
-        year = int('20'+file.split('.')[0][-2:])
+        year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
         df_list.append(df)
