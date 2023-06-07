@@ -648,7 +648,7 @@ equation = html.Div([
 print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
-# server = app.server
+server = app.server
 
 app.layout = html.Div(children = [
                 dbc.Row([
