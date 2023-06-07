@@ -681,7 +681,7 @@ def getrank(schools=None):
     Output('graph-content', 'figure'),
     [Input('dropdown-selection', 'value'),
     Input('ycol', 'value'),
-    # Input('modifier', 'value'),
+    Input('modifier', 'value'),
     # Input('stratio', 'value'),
     # Input('students', 'value'),
     # Input('experience', 'value'),
