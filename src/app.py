@@ -414,7 +414,7 @@ DISTRICTS_LIST = [
 "Wrentham"]
 
 TEACHER_COLUMNS = ['District Name','District Code','Student / Teacher Ratio','Percent of Experienced Teachers','Total # of Teachers (FTE)']
-# EXPENDITURES_COLUMNS = ['District Name','District Code','In-District Expenditures per Pupil']
+EXPENDITURES_COLUMNS = ['District Name','District Code','In-District Expenditures per Pupil']
 ENROLLMENT_COLUMNS = ['District Name','District Code','K','1','2','3','4','5','6','7','8','9','10','11','12']
 ATTENDANCE_COLUMNS = ['District Name','District Code','Attendance Rate','Chronically Absent (10% or more)','Chronically Absent (20% or more)']
 DISCIPLINE_COLUMNS = ['District Name','District Code','Students','% In-School Suspension','% Out-of-School Suspension']
@@ -455,8 +455,10 @@ def get_expendituredata(tickers=DISTRICTS_LIST,columns=EXPENDITURES_COLUMNS):
         df['Year'] = year
         #df = df[df['District Code'].isin(DISTRICTS_LIST)]
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
-        df['In-District Expenditures per Pupil ($)'] = df['In-District Expenditures per Pupil'].str.replace(',', '').str.replace('$', '').astype('float')
+        df['In-District Expenditures per Pupil'] = df['In-District Expenditures per Pupil'].str.replace(',', '').str.replace('$', '').astype('float')
+        df['In-District Expenditures per Pupil ($)'] = df['In-District Expenditures per Pupil']
         df_list.append(df)
+
     bigdf = pd.concat(df_list)
         
     return bigdf
