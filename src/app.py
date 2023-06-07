@@ -421,7 +421,7 @@ DISCIPLINE_COLUMNS = ['District Name','District Code','Students','% In-School Su
 
 def get_teacherdata(tickers=DISTRICTS_LIST,columns=TEACHER_COLUMNS):
     """imports data from xlsx"""
-    files = glob(f"DATA/teacherdata*.xlsx")
+    files = glob(f"../DATA/teacherdata*.xlsx")
     df_list = []
     for file in files:
         df = pd.read_excel(file,skiprows=1, thousands=',')
@@ -443,7 +443,7 @@ def get_teacherdata(tickers=DISTRICTS_LIST,columns=TEACHER_COLUMNS):
 
 def get_expendituredata(tickers=DISTRICTS_LIST,columns=EXPENDITURES_COLUMNS):
     """imports data from xlsx"""
-    files = glob(f"DATA/PerPupilExpenditures*.xlsx")
+    files = glob(f"../DATA/PerPupilExpenditures*.xlsx")
     df_list = []
     for file in files:
         df = pd.read_excel(file,skiprows=1, thousands=',')
@@ -464,7 +464,7 @@ def get_expendituredata(tickers=DISTRICTS_LIST,columns=EXPENDITURES_COLUMNS):
 
 def get_enrollmentdata(tickers=DISTRICTS_LIST,columns=ENROLLMENT_COLUMNS):
     """imports data from xlsx"""
-    files = glob(f"DATA/enrollmentbygrade*.xlsx")
+    files = glob(f"../DATA/enrollmentbygrade*.xlsx")
     df_list = []
     for file in files:
         df = pd.read_excel(file,skiprows=1, thousands=',')
@@ -486,7 +486,7 @@ def get_enrollmentdata(tickers=DISTRICTS_LIST,columns=ENROLLMENT_COLUMNS):
 
 def get_attendancedata(tickers=DISTRICTS_LIST,columns=ATTENDANCE_COLUMNS):
     """imports data from xlsx"""
-    files = glob(f"DATA/attendance*.xlsx")
+    files = glob(f"../DATA/attendance*.xlsx")
     df_list = []
     for file in files:
         df = pd.read_excel(file,skiprows=1, thousands=',')
@@ -504,7 +504,7 @@ def get_attendancedata(tickers=DISTRICTS_LIST,columns=ATTENDANCE_COLUMNS):
 
 def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
     """imports data from xlsx"""
-    files = glob(f"DATA/StudentDisciplineDataReport*.xlsx")
+    files = glob(f"../DATA/StudentDisciplineDataReport*.xlsx")
     df_list = []
     for file in files:
         df = pd.read_excel(file,skiprows=1, thousands=',')
