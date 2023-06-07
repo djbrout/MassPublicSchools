@@ -531,8 +531,6 @@ def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
         
     return bigdf
 
-def get_equation():
-
 
 data_df = get_teacherdata()
 print('got teacherdata_df')
@@ -672,6 +670,7 @@ app.layout = html.Div(children = [
                 dbc.Row(html.H2(" Custom Weighted Evaluation (NOT FUNCTIONAL YET)", className="lead", style = {'margin-left':'7px'})),
                 dbc.Row( equation ),
                 dbc.Row(html.A(" Tip: When to make the value negative? When smaller values are more desireable. For Example: larger Student/Teacher ratio is worse, so make that negative.", className="lead", style = {'margin-left':'7px'})),
+                dbc.Row(html.A(" Note: For each variable I examine the full distribution across all schools and assign a normalized percentile. This is what is being scaled by the weights that you assign.", className="lead", style = {'margin-left':'7px'})),
                 ])
 
 def getrank(schools=None):
