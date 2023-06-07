@@ -521,14 +521,23 @@ def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
     return bigdf
 
 teacherdata_df = get_teacherdata()
+print('got teacherdata_df')
 expendituresdata_df = get_expendituredata()
+print('got expendituresdata_df')
 enrollmentdata_df = get_enrollmentdata()
+print('got enrollmentdata_df')
 attendancedata_df = get_attendancedata()
+print('got attendancedata_df')
 disciplinedata_df = get_disciplinedata()
+print('got disciplinedata_df')
 data_df = pd.merge(teacherdata_df,expendituresdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+print('done merge1')
 data_df = pd.merge(data_df,enrollmentdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+print('done merge2')
 data_df = pd.merge(data_df,attendancedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+print('done merge3')
 data_df = pd.merge(data_df,disciplinedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+print('done merge4')
 ylist = ['Student / Teacher Ratio', 
 'Students',
 'Total # of Teachers (FTE)',
