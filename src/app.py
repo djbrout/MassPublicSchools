@@ -531,6 +531,9 @@ def get_disciplinedata(tickers=DISTRICTS_LIST,columns=DISCIPLINE_COLUMNS):
         
     return bigdf
 
+def get_equation():
+
+
 data_df = get_teacherdata()
 print('got teacherdata_df')
 # expendituresdata_df = get_expendituredata()
@@ -668,6 +671,7 @@ app.layout = html.Div(children = [
                 dbc.Row(html.Hr()),
                 dbc.Row(html.H2(" Custom Weighted Evaluation (NOT FUNCTIONAL YET)", className="lead", style = {'margin-left':'7px'})),
                 dbc.Row( equation ),
+                dbc.Row(html.A(" Tip: When to make the value negative? When smaller values are more desireable. For Example: larger Student/Teacher ratio is worse, so make that negative.", className="lead", style = {'margin-left':'7px'})),
                 ])
 
 def getrank(schools=None):
@@ -677,7 +681,16 @@ def getrank(schools=None):
     Output('graph-content', 'figure'),
     [Input('dropdown-selection', 'value'),
     Input('ycol', 'value'),
-    Input('modifier', 'value')]
+    Input('modifier', 'value'),
+    Input('stratio', 'value'),
+    Input('students', 'value'),
+    Input('experience', 'value'),
+    Input('attendance', 'value'),
+    Input('totenrollment', 'value'),
+    Input('absent10', 'value'),
+    Input('issuspension', 'value'),
+    Input('ossuspension', 'value'),
+    ]
 )
 def update_graph(value,yvalue,modifier):
     ww = data_df['District Name']== 'asdf' 
