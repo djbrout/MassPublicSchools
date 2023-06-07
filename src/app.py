@@ -671,6 +671,7 @@ app.layout = html.Div(children = [
                 dbc.Row( equation ),
                 dbc.Row(html.A(" Tip: When to make the value negative? When smaller values are more desireable. For Example: larger Student/Teacher ratio is worse, so make that negative.", className="lead", style = {'margin-left':'7px'})),
                 dbc.Row(html.A(" Note: For each variable I examine the full distribution across all schools and assign a normalized percentile. This is what is being scaled by the weights that you assign.", className="lead", style = {'margin-left':'7px'})),
+                dbc.Row(html.A(" Note: Default values for weights are 0.", className="lead", style = {'margin-left':'7px'})),
                 ])
 
 def getrank(schools=None):
@@ -680,15 +681,15 @@ def getrank(schools=None):
     Output('graph-content', 'figure'),
     [Input('dropdown-selection', 'value'),
     Input('ycol', 'value'),
-    Input('modifier', 'value'),
-    Input('stratio', 'value'),
-    Input('students', 'value'),
-    Input('experience', 'value'),
-    Input('attendance', 'value'),
-    Input('totenrollment', 'value'),
-    Input('absent10', 'value'),
-    Input('issuspension', 'value'),
-    Input('ossuspension', 'value'),
+    # Input('modifier', 'value'),
+    # Input('stratio', 'value'),
+    # Input('students', 'value'),
+    # Input('experience', 'value'),
+    # Input('attendance', 'value'),
+    # Input('totenrollment', 'value'),
+    # Input('absent10', 'value'),
+    # Input('issuspension', 'value'),
+    # Input('ossuspension', 'value'),
     ]
 )
 def update_graph(value,yvalue,modifier):
@@ -697,10 +698,7 @@ def update_graph(value,yvalue,modifier):
         ww = (data_df['District Name']==value)
     else:
         for v in value:
-            ww = ww | (data_df['District Name']==v)
-    print(value)
-    print(yvalue)
-    
+            ww = ww | (data_df['District Name']==v)    
     if yvalue is None:
         return px.line()
     if modifier == 'None':
