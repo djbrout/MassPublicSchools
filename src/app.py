@@ -1130,21 +1130,20 @@ def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,ab
     'Chronically Absent (10% or more)':absent10,
     '% In-School Suspension':issuspension,
     '% Out-of-School Suspension':ossuspension,
-    '':retained,
-    '':apperc,
-    '':arts,
-    '':mathclasssize,
-    '':classsize,
-    '':nine,
-    '':sat,
-    '':lisat,
-    '':spending,
-    '':college,
-    '':licollege,
+    'Teacher % Retained':retained,
+    '% Students Completing AP':apperc,
+    'Arts Participation % (High School)':arts,
+    'Average Class Size (Math Only)':mathclasssize,
+    'Average Class Size (All Classes)':classsize,
+    '% Passing All 9th Grade Courses':nine,
+    'Total SAT Score':sat,
+    'Total SAT Score (ED Students)':lisat,
+    'Spending as % of Required':spending,
+    'Attending Coll./Univ. %':college,
+    'Attending Coll./Univ. % (ED Students)':licollege,
     # '':,
     # '':,
     }
-
 
     ww = data_df['District Name']== 'asdf' 
     if not isinstance(value, list):
