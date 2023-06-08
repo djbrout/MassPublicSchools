@@ -1064,7 +1064,7 @@ equation = html.Div([
 print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
-# server = app.server
+server = app.server
 
 app.layout = html.Div(children = [
                 dbc.Row([
@@ -1086,6 +1086,7 @@ app.layout = html.Div(children = [
                 dbc.Row(html.A(" Note: Before applying your custom weighting, each variable is normalized to a number between 0 and 1.", className="lead", style = {'margin-left':'7px'})),
                 dbc.Row(html.Br()),
                 dbc.Row(html.A(" Tip: When to make the value negative? When smaller values are more desireable. For Example: smaller Student/Teacher ratios are better, so make that negative.", className="lead", style = {'margin-left':'7px'})),
+                dbc.Row(html.Br()),
                 ])
 
 # def z_score(df):
