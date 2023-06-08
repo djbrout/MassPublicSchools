@@ -1066,7 +1066,7 @@ app.layout = html.Div(children = [
                     ]),
                 dbc.Row([
                     dbc.Col(),
-                    dbc.Col(html.A(' Based on data from profiles.doe.mass.edu', href='profiles.doe.mass.edu', target="_blank"), width = 8, style = {'margin-left':'7px','margin-top':'7px'})
+                    dbc.Col(html.A(' Based on data from profiles.doe.mass.edu', href='profiles.doe.mass.edu', target="profiles.doe.mass.edu"), width = 8, style = {'margin-left':'7px','margin-top':'7px'})
                     ]),
                 dbc.Row(
                     [dbc.Col(sidebar),
@@ -1156,16 +1156,14 @@ def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,ab
 
     if yvalue == "Custom Weighted Evaluation":
         normed_data_df = data_df.groupby('Year').transform(zscore)
-        # try:
-        if True:
+        try:
             data_df['Custom Weighted Evaluation'] = normed_data_df['District Code']*0
             for key,value in customdict.items():
                 if value == '': continue
                 data_df['Custom Weighted Evaluation'] += normed_data_df[key]*float(value)
-
-        # except:
-            # print('could not convert string to float')
-            # return
+        except:
+            print('could not convert string to float')
+            return
 
     if modifier == 'None':
         dff = data_df[ww].sort_values('Year')
