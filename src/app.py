@@ -431,7 +431,7 @@ ATTENDANCE_COLUMNS = ['UNIQ','Year','District Name','District Code','Attendance 
 DISCIPLINE_COLUMNS = ['UNIQ','Year','District Name','District Code','Students','% In-School Suspension','% Out-of-School Suspension']
 RETENTION_COLUMNS = ['UNIQ','Year','District Name','District Code','Teacher % Retained']
 SALARY_COLUMNS = ['UNIQ','Year','District Name','District Code']#,'Average Teacher Salary']
-ADVANCED_COLUMNS = ['UNIQ','Year','District Name','District Code','% Students Completing Advanced']
+ADVANCED_COLUMNS = ['UNIQ','Year','District Name','District Code','% Students Completing AP']
 ARTS_COLUMNS = ['UNIQ','Year','District Name','District Code','Arts Participation % (High School)']
 MATH_COLUMNS = ['UNIQ','Year','District Name','District Code','Average Class Size (Math Only)']
 CLASSSIZE_COLUMNS = ['UNIQ','Year','District Name','District Code','Average Class Size (All Classes)']
@@ -576,10 +576,11 @@ def get_advanceddata(tickers=DISTRICTS_LIST,columns=ADVANCED_COLUMNS):
         for col in columns:
             if not col in df.columns:
                 df[col] = np.nan
-        df = df[columns]
         year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
+        df['% Students Completing AP'] = df['% Students Completing Advanced']
+        df = df[columns]
         df_list.append(df)
     bigdf = pd.concat(df_list)
         
@@ -687,7 +688,7 @@ def get_spendingdata(tickers=DISTRICTS_LIST,columns=SPENDING_COLUMNS):
         year = int('20'+file.split('.xlsx')[0][-2:])
         df['Year'] = year
         df['UNIQ'] = df['District Code'].astype(str)+df['Year'].astype(str)
-        df['Spending as % of Required'] = df['Actual NSS as % of Required']
+        df['Spending as % of Required'] = df['Actual NSS as % of Required'].astype(float)
         df = df[columns]
         df_list.append(df)
     bigdf = pd.concat(df_list)
@@ -887,6 +888,7 @@ ylist = ['Student / Teacher Ratio',
 'Teacher % Retained',
 # 'Average Teacher Salary',
 '% Students Completing AP',
+'AP Test Score 3-5 %',
 'Arts Participation % (High School)',
 'Average Class Size (Math Only)',
 'Average Class Size (All Classes)',
@@ -916,6 +918,7 @@ rankinvert = {
 'Teacher % Retained':True,
 # 'Average Teacher Salary':False,
 '% Students Completing AP':False,
+'AP Test Score 3-5 %':False,
 'Arts Participation % (High School)':False,
 'Average Class Size (Math Only)':True,
 'Average Class Size (All Classes)':True,
@@ -1005,6 +1008,10 @@ equation = html.Div([
     dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='apperc')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
+    html.Div([html.A('+ % AP Scores 3-5 x '),
+    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='apresults')],
+    style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
+
     html.Div([html.A('+ Arts Participation % x '),
     dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='arts')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
@@ -1057,7 +1064,7 @@ equation = html.Div([
 print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
-server = app.server
+# server = app.server
 
 app.layout = html.Div(children = [
                 dbc.Row([
@@ -1090,7 +1097,11 @@ app.layout = html.Div(children = [
         
 #     return df
 
-zscore = lambda x: x / max(np.abs(x))
+def zscore(x):
+    try:
+        return x / max(np.abs(x.dropna()))
+    except:
+        return x
 
 @callback(
     Output('graph-content', 'figure'),
@@ -1106,6 +1117,7 @@ zscore = lambda x: x / max(np.abs(x))
     Input('ossuspension', 'value'),
     Input('retained', 'value'),
     Input('apperc', 'value'),
+    Input('apresults', 'value'),
     Input('arts', 'value'),
     Input('mathclasssize', 'value'),
     Input('classsize', 'value'),
@@ -1120,7 +1132,7 @@ zscore = lambda x: x / max(np.abs(x))
     ]
 )
 def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,absent10,
-                    issuspension,ossuspension,retained,apperc,arts,mathclasssize,
+                    issuspension,ossuspension,retained,apperc,apresults,arts,mathclasssize,
                     classsize,nine,sat,lisat,spending,college,licollege):
     
     customdict = {'Student / Teacher Ratio':stratio,
@@ -1132,6 +1144,7 @@ def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,ab
     '% Out-of-School Suspension':ossuspension,
     'Teacher % Retained':retained,
     '% Students Completing AP':apperc,
+    'AP Test Score 3-5 %':apresults,
     'Arts Participation % (High School)':arts,
     'Average Class Size (Math Only)':mathclasssize,
     'Average Class Size (All Classes)':classsize,
@@ -1156,11 +1169,13 @@ def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,ab
 
     if yvalue == "Custom Weighted Evaluation":
         normed_data_df = data_df.groupby('Year').transform(zscore)
+
         try:
+        # if True:
             data_df['Custom Weighted Evaluation'] = normed_data_df['District Code']*0
-            for key,value in customdict.items():
-                if value == '': continue
-                data_df['Custom Weighted Evaluation'] += normed_data_df[key]*float(value)
+            for key,v in customdict.items():
+                if v == '': continue
+                data_df['Custom Weighted Evaluation'] += normed_data_df[key].astype(float)*float(v)
         except:
             print('could not convert string to float')
             return
