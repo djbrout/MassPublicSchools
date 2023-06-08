@@ -648,7 +648,7 @@ equation = html.Div([
 print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
-server = app.server
+# server = app.server
 
 app.layout = html.Div(children = [
                 dbc.Row([
@@ -680,7 +680,7 @@ app.layout = html.Div(children = [
         
 #     return df
 
-zscore = lambda x: (x - x.mean()) / x.std()
+zscore = lambda x: x / max(np.abs(x))
 
 @callback(
     Output('graph-content', 'figure'),
