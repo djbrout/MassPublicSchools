@@ -6,7 +6,6 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from glob import glob
 import dash_bootstrap_components as dbc
-import dash_loading_spinners as dls
 
 # TO DO:
 # modifier (year over year)
@@ -1074,7 +1073,6 @@ print('app')
 app = Dash(external_stylesheets=[dbc.themes.LUX])
 server = app.server
 
-app.layout = dls.Hash()
 
 app.layout = html.Div(children = [
                 dbc.Row([
