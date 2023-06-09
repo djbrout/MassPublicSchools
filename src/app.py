@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 from glob import glob
 import dash_bootstrap_components as dbc
+import dash_loading_spinners as dls
 
 # TO DO:
 # modifier (year over year)
@@ -15,6 +16,7 @@ import dash_bootstrap_components as dbc
 # dollars data non category
 # housing cost
 
+init = True
 
 DISTRICTS = {
     int("00490000"): "Cambridge",
@@ -790,87 +792,93 @@ def get_licollegedata(tickers=DISTRICTS_LIST,columns=LICOLLEGE_COLUMNS):
     bigdf = pd.concat(df_list)
     return bigdf
 
-data_df = get_teacherdata()
-print('got teacherdata_df')
-# expendituresdata_df = get_expendituredata()
-# print('got expendituresdata_df')
-enrollmentdata_df = get_enrollmentdata()
-print('got enrollmentdata_df')
-attendancedata_df = get_attendancedata()
-print('got attendancedata_df')
-disciplinedata_df = get_disciplinedata()
-print('got disciplinedata_df')
-retentiondata_df = get_retentiondata()
-print('got retentiondata_df')
-salarydata_df = get_salarydata()
-print('got salarydata_df')
-advanceddata_df = get_advanceddata()
-print('got advanceddata_df')
-artsdata_df = get_artsdata()
-print('got artsdata_df')
-disciplinedata_df = get_disciplinedata()
-print('got disciplinedata_df')
-mathclassdata_df = get_mathclassdata()
-print('got mathclassdata_df')
-allclassdata_df = get_allclassdata()
-print('got allclassdata_df')
-ninedata_df = get_ninedata()
-print('got ninedata_df')
-spendingdata_df = get_spendingdata()
-print('got spendingdata_df')
-satdata_df = get_satdata()
-print('got satdata_df')
-LIsatdata_df = get_LIsatdata()
-print('got LIsatdata_df')
-apdata_df = get_apdata()
-print('got apdata_df')
-collegedata_df = get_collegedata()
-print('got collegedata_df')
-licollegedata_df = get_licollegedata()
-print('got licollegedata_df')
-# data_df = get_data()
-# print('got data_df')
-# data_df = get_data()
-# print('got data_df')
+if init:
+    data_df = get_teacherdata()
+    print('got teacherdata_df')
+    # expendituresdata_df = get_expendituredata()
+    # print('got expendituresdata_df')
+    enrollmentdata_df = get_enrollmentdata()
+    print('got enrollmentdata_df')
+    attendancedata_df = get_attendancedata()
+    print('got attendancedata_df')
+    disciplinedata_df = get_disciplinedata()
+    print('got disciplinedata_df')
+    retentiondata_df = get_retentiondata()
+    print('got retentiondata_df')
+    salarydata_df = get_salarydata()
+    print('got salarydata_df')
+    advanceddata_df = get_advanceddata()
+    print('got advanceddata_df')
+    artsdata_df = get_artsdata()
+    print('got artsdata_df')
+    disciplinedata_df = get_disciplinedata()
+    print('got disciplinedata_df')
+    mathclassdata_df = get_mathclassdata()
+    print('got mathclassdata_df')
+    allclassdata_df = get_allclassdata()
+    print('got allclassdata_df')
+    ninedata_df = get_ninedata()
+    print('got ninedata_df')
+    spendingdata_df = get_spendingdata()
+    print('got spendingdata_df')
+    satdata_df = get_satdata()
+    print('got satdata_df')
+    LIsatdata_df = get_LIsatdata()
+    print('got LIsatdata_df')
+    apdata_df = get_apdata()
+    print('got apdata_df')
+    collegedata_df = get_collegedata()
+    print('got collegedata_df')
+    licollegedata_df = get_licollegedata()
+    print('got licollegedata_df')
+    # data_df = get_data()
+    # print('got data_df')
+    # data_df = get_data()
+    # print('got data_df')
 
-# data_df = pd.merge(data_df,expendituresdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-# print('done merge1')
-data_df = pd.merge(data_df,enrollmentdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge2')
-data_df = pd.merge(data_df,attendancedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge3')
-data_df = pd.merge(data_df,disciplinedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge4')
-data_df = pd.merge(data_df,retentiondata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge5')
-data_df = pd.merge(data_df,salarydata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge6')
-data_df = pd.merge(data_df,advanceddata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge7')
-data_df = pd.merge(data_df,artsdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge8')
-data_df = pd.merge(data_df,disciplinedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge9')
-data_df = pd.merge(data_df,mathclassdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge10')
-data_df = pd.merge(data_df,allclassdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge11')
-data_df = pd.merge(data_df,ninedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge12')
-data_df = pd.merge(data_df,spendingdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge13')
-data_df = pd.merge(data_df,satdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge14')
-data_df = pd.merge(data_df,LIsatdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge15')
-data_df = pd.merge(data_df,apdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge')
-data_df = pd.merge(data_df,collegedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge')
-data_df = pd.merge(data_df,licollegedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-print('done merge')
-# data_df = pd.merge(data_df,data_df,on='UNIQ',suffixes=('','_extra'),how='outer')
-# print('done merge')
+    # data_df = pd.merge(data_df,expendituresdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    # print('done merge1')
+    data_df = pd.merge(data_df,enrollmentdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge2')
+    data_df = pd.merge(data_df,attendancedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge3')
+    data_df = pd.merge(data_df,disciplinedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge4')
+    data_df = pd.merge(data_df,retentiondata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge5')
+    data_df = pd.merge(data_df,salarydata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge6')
+    data_df = pd.merge(data_df,advanceddata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge7')
+    data_df = pd.merge(data_df,artsdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge8')
+    data_df = pd.merge(data_df,disciplinedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge9')
+    data_df = pd.merge(data_df,mathclassdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge10')
+    data_df = pd.merge(data_df,allclassdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge11')
+    data_df = pd.merge(data_df,ninedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge12')
+    data_df = pd.merge(data_df,spendingdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge13')
+    data_df = pd.merge(data_df,satdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge14')
+    data_df = pd.merge(data_df,LIsatdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge15')
+    data_df = pd.merge(data_df,apdata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge')
+    data_df = pd.merge(data_df,collegedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge')
+    data_df = pd.merge(data_df,licollegedata_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    print('done merge')
+    # data_df = pd.merge(data_df,data_df,on='UNIQ',suffixes=('','_extra'),how='outer')
+    # print('done merge')
+
+    data_df.to_pickle("./data_df.pkl")    
+      
+else:
+    data_df = pd.read_pickle("./data_df.pkl")  
 
 ylist = ['Student / Teacher Ratio', 
 'Students',
@@ -997,55 +1005,55 @@ equation = html.Div([
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ % Out-of-School Suspension x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='ossuspension')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='ossuspension')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Teacher % Retained x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='retained')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='retained')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ % Students Completing AP x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='apperc')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='apperc')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ % AP Scores 3-5 x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='apresults')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='apresults')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Arts Participation % x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='arts')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='arts')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Average Class Size (Math Only) x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='mathclasssize')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='mathclasssize')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Average Class Size (All Classes) x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='classsize')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='classsize')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ % Passing All 9th Grade Courses x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='nine')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='nine')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Total SAT Score x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='sat')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='sat')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Total SAT Score (ED Students) x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='lisat')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='lisat')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Spending as % of Required x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='spending')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='spending')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
     
     html.Div([html.A('+ Attending Coll./Univ. % x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='college')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='college')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     html.Div([html.A('+ Attending Coll./Univ. % (ED Students) x '),
-    dcc.Input(placeholder='Enter weight (0 to 100)',size='23', type='text', value='', id='licollege')],
+    dcc.Input(placeholder='Enter weight (-100 to 100)',size='23', type='text', value='', id='licollege')],
     style = {'margin-left':'7px','margin-right':'7px','padding': '10px'}),
 
     # html.Div([html.A('+ ASDF x '),
@@ -1064,7 +1072,9 @@ equation = html.Div([
 print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
-server = app.server
+# server = app.server
+
+app.layout = dls.Hash()
 
 app.layout = html.Div(children = [
                 dbc.Row([
@@ -1211,6 +1221,8 @@ def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,ab
         dff = data_df[ww].sort_values('Year')
         dff[yvalue+' Rank (only selected)'] = dff.groupby("Year")[yvalue].rank(method='max',ascending=~rankinvert[yvalue])#,na_option='bottom')
         return px.line(dff, x='Year', y=yvalue+' Rank (only selected)', range_x=[2011,2023], range_y=[len(value)+.5, .5], line_group='District Name', color='District Name')
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
