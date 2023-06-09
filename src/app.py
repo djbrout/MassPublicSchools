@@ -935,7 +935,7 @@ rankinvert = {
 'Spending as % of Required':False,
 'Attending Coll./Univ. %':False,
 'Attending Coll./Univ. % (ED Students)':False,
-'Custom Weighted Evaluation':False,
+'Custom Weighted Evaluation':True,
 }
 
 
