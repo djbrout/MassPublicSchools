@@ -16,7 +16,7 @@ import dash_loading_spinners as dls
 # dollars data non category
 # housing cost
 
-init = True
+init = False
 
 DISTRICTS = {
     int("00490000"): "Cambridge",
@@ -1072,7 +1072,7 @@ equation = html.Div([
 print('app')
 
 app = Dash(external_stylesheets=[dbc.themes.LUX])
-# server = app.server
+server = app.server
 
 app.layout = dls.Hash()
 
