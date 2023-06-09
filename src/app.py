@@ -935,7 +935,7 @@ rankinvert = {
 'Spending as % of Required':False,
 'Attending Coll./Univ. %':False,
 'Attending Coll./Univ. % (ED Students)':False,
-'Custom Weighted Evaluation':True,
+'Custom Weighted Evaluation':False,
 }
 
 
@@ -1212,12 +1212,18 @@ def update_graph(value,yvalue,modifier,stratio,students,experience,attendance,ab
         return fig
 
     if modifier == 'Rank (overall)':
-        data_df[yvalue+' Rank (overall)'] = data_df.groupby("Year")[yvalue].rank(method='max',ascending=~rankinvert[yvalue])#,na_option='bottom')
+        if 'Custom' in yvalue:
+            data_df[yvalue+' Rank (overall)'] = data_df.groupby("Year")[yvalue].rank(method='max',ascending=False)
+        else:
+            data_df[yvalue+' Rank (overall)'] = data_df.groupby("Year")[yvalue].rank(method='max',ascending=~rankinvert[yvalue])#,na_option='bottom')
         dff = data_df[ww].sort_values('Year')
         return px.line(dff, x='Year', y=yvalue+' Rank (overall)', range_x=[2011,2023], range_y=[450, 0], line_group='District Name', color='District Name')
     if modifier == 'Rank (only selected)':
         dff = data_df[ww].sort_values('Year')
-        dff[yvalue+' Rank (only selected)'] = dff.groupby("Year")[yvalue].rank(method='max',ascending=~rankinvert[yvalue])#,na_option='bottom')
+        if 'Custom' in yvalue:
+            dff[yvalue+' Rank (only selected)'] = dff.groupby("Year")[yvalue].rank(method='max',ascending=False)#,na_option='bottom')
+        else:
+            dff[yvalue+' Rank (only selected)'] = dff.groupby("Year")[yvalue].rank(method='max',ascending=~rankinvert[yvalue])#,na_option='bottom')
         return px.line(dff, x='Year', y=yvalue+' Rank (only selected)', range_x=[2011,2023], range_y=[len(value)+.5, .5], line_group='District Name', color='District Name')
 
 
